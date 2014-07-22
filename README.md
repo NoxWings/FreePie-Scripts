@@ -45,6 +45,6 @@ Soon:
 </pre>
 Each VoiceCommand takes 3 arguments: the voice command to activate it, the speech response it gives and the action it takes.
 Currently there are some actions it can take.
-- KeyPress( key ) or KeyPress( [keys] )
-- KeyRepeat( key, repetitionTimes, timeInterval = 0.1 )
-- KeyHold( key, timeToHold )
+- <pre> KeyPress( key ) or KeyPress( [keys] ) </pre>
+- <pre> KeyRepeat( key, repetitionTimes, timeInterval = 0.1 ) </pre>
+- <pre> KeyHold( key, timeToHold ) </pre>
