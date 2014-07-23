@@ -163,11 +163,11 @@ if starting:
 	
 	# Key Hold
 	v2k.addCommand("Test single hold", "Single key hold. 2 seconds", KeyPress( Key.B, 2 ))
-	v2k.addCommand("Test multiple hold", "Multipl keys hold. 2 seconds", KeyPress( [ Key.LeftShift, Key.B ], 2 ))
+	v2k.addCommand("Test multiple hold", "Multiple keys hold. 2 seconds", KeyPress( [ Key.LeftShift, Key.B ], 2 ))
 	
 	# Key Repeat
 	v2k.addCommand("Test single repeat", "Pressing C key 5 times", KeyRepeat( Key.C, 5 ))
-	v2k.addCommand("Test multiple repeat", "Pression Shift and C keys 5 times", KeyRepeat( [ Key.LeftShift, Key.C ], 5 , 0.1, 0.07 ))
+	v2k.addCommand("Test multiple repeat", "Pressing Shift and C keys 5 times", KeyRepeat( [ Key.LeftShift, Key.C ], 5 , 0.1, 0.07 ))
 	
 
 v2k.executeLoop() 
