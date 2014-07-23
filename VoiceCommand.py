@@ -61,6 +61,7 @@ class KeyRepeat(KeyAction):
 		if (self.timesLeft > 0):
 			if (currentTime - self.time) >= self.timeInterval:
 				self.timesLeft = self.timesLeft - 1
+				self.time = time.time()
 				self.setKeyPressed()
 
 class KeyHold(KeyAction):
