@@ -61,7 +61,7 @@ class KeyPress(KeyAction):
 
 
 class KeyRepeat(KeyAction):
-	def __init__(self, key, times, timeInterval = 0.1, duration = 0.07):
+	def __init__(self, key, times, timeInterval = 0.14, duration = 0.07):
 		KeyAction.__init__(self, key)
 		self.times = times-1 
 		self.timeInterval = timeInterval
@@ -73,6 +73,7 @@ class KeyRepeat(KeyAction):
 		#internal use variables
 		self.time = time.time()
 		self.timesLeft = 0
+		self.needUpdate = False
 		
 	def execute(self):
 		# set the keys down
@@ -80,19 +81,23 @@ class KeyRepeat(KeyAction):
 		# start the update timer
 		self.time = time.time()
 		self.timesLeft = self.times
+		self.needUpdate = True
 			
 	def update(self, currentTime):
-		if (self.timesLeft > 0):
+		if self.needUpdate:
 			elapsedTime = currentTime - self.time
 			# Release Current Key
 			if (elapsedTime >= self.duration):
 				self.setKeyUp()
+				# End the update if the last key has been released
+				if (self.timesLeft == 0):
+					self.needUpdate = False
 			# Press Next KeyDown
 			if (elapsedTime >= self.timeInterval):
 				self.setKeyDown()
 				self.time = time.time()
 				self.timesLeft = self.timesLeft - 1
-				
+			
 
 # ***********************************
 # VoiceCommand Class
@@ -145,7 +150,8 @@ class VoiceToKeyboard:
 				command.playResponse()
 				command.execute()
 			command.update(currentTime)
-
+			
+			
 # ***********************************
 # Config and commands
 # ***********************************
