@@ -13,14 +13,23 @@ def setup(index):
 	setupHydra(index)
 	setupMove(index)
 
-def updateHydra(i):
-	hydra[i].x         = -psmove[i].position.x * PositionScale
-	hydra[i].y         = psmove[i].position.y * PositionScale
-	hydra[i].z         = -psmove[i].position.z * PositionScale
+def updateSmoothTracking():
+	hydra[0].x         = filters.simple(-psmove[0].position.x, Smoothing) * PositionScale
+	hydra[0].y         = filters.simple( psmove[0].position.y, Smoothing) * PositionScale
+	hydra[0].z         = filters.simple(-psmove[0].position.z, Smoothing) * PositionScale
+	hydra[1].x         = filters.simple(-psmove[1].position.x, Smoothing) * PositionScale
+	hydra[1].y         = filters.simple( psmove[1].position.y, Smoothing) * PositionScale
+	hydra[1].z         = filters.simple(-psmove[1].position.z, Smoothing) * PositionScale
+
 	
-	hydra[i].yaw       = psmove[i].pitch
+def updateHydra(i):
+	#hydra[i].x         = -psmove[i].position.x * PositionScale
+	#hydra[i].y         =  psmove[i].position.y * PositionScale
+	#hydra[i].z         = -psmove[i].position.z * PositionScale
+	
+	hydra[i].yaw       =  psmove[i].pitch
 	hydra[i].pitch     = -psmove[i].roll
-	hydra[i].roll      = psmove[i].yaw
+	hydra[i].roll      =  psmove[i].yaw
 	
 	hydra[i].one       = xbox360[i].left 
 	hydra[i].two       = xbox360[i].right
@@ -33,8 +42,8 @@ def updateHydra(i):
 	hydra[i].isDocked  = xbox360[i].up
 
 	hydra[i].trigger   = xbox360[i].leftTrigger * TriggerScale 
-	hydra[i].joyx      = xbox360[i].leftStickX * AxisScale
-	hydra[i].joyy      = xbox360[i].leftStickY * AxisScale
+	hydra[i].joyx      = xbox360[i].leftStickX  * AxisScale
+	hydra[i].joyy      = xbox360[i].leftStickY  * AxisScale
 
 def update(index):
 	if psmove[index].getButtonDown( PSMoveButton.Move ):
@@ -46,8 +55,10 @@ if starting:
 	Right = 1
 	AxisScale = TriggerScale = 1
 	PositionScale = 50
+	Smoothing = 0.25
 	setup(Left)
 	setup(Right)
 
+updateSmoothTracking()
 update(Left)
 update(Right)
